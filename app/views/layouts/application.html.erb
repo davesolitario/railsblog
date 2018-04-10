@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+     <%= stylesheet_link_tag 'application', 'http://fonts.googleapis.com/css?family=Raleway:400,700' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag 'favicon.ico' %>
+  </head>
+
+  <body>
+  	<div id="sidebar">
+  		<div id="logo">
+			<%= link_to root_path do %>
+				<% image_tag("logo.svg") %>
+  		<% end %>
+
+
+  		</div>
+  		<ul>
+  		<li class="category">Website</li>
+  		<li> <%= link_to "Blog", root_path %></li>
+  		<li><%= link_to "About", about_path %></li>
+  	</ul>
+
+
+<% if !user_signed_in? %>
+  	<%= link_to '<button type="button">Log In</button>'.html_safe, new_user_session_path %>
+    <%= link_to '<button type="button">Sign Up</button>'.html_safe, new_user_registration_path %>
+    <% end %>
+
+  </div>
+  <div id="main_content">
+		<div id="header">
+      <% if current_page?(root_path) %>
+        <p>All Posts</p>
+      <% elsif current_page?(about_path) %>
+        <p>About</p>
+      <% else %>
+        <%= link_to "Back to All Posts", root_path %>
+<% end %>
+  <% if user_signed_in? %>
+			
+			<div class="buttons">
+		<%= link_to '<button type="button">New Post</button>'.html_safe, new_post_path %> 
+    <%= link_to '<button type="button">Log Out</button>'.html_safe, destroy_user_session_path, :method => :delete %>
+
+
+
+</div>
+<% end %>
+</div>
+<% flash.each do |name, msg| %>
+<%= content_tag(:div, msg, class: "alert") %>
+<% end %>
+<%= yield %>
+
+
+     <style>
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+</style>
+
+<div class="footer">
+  <p> © 2018 Copyright: Janz Kun</p>
+
+
+</div> 
+    
+</div>
+    
+  </body>
+</html>
